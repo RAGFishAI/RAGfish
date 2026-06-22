@@ -1,0 +1,49 @@
+{
+    "name": "ragfish",
+    "version": "0.1.0",
+    "description": "Core RAG primitives: Chat orchestrator, provider interfaces, and Settings registry",
+    "type": "module",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "default": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build"
+    },
+    "keywords": [
+        "rag",
+        "llm",
+        "ai",
+        "chat",
+        "retrieval-augmented-generation",
+        "openai",
+        "embeddings"
+    ],
+    "author": "",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/your-org/ragfish.git"
+    },
+    "homepage": "https://github.com/your-org/ragfish#readme",
+    "bugs": {
+        "url": "https://github.com/your-org/ragfish/issues"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "devDependencies": {
+        "@types/node": "^25.9.2",
+        "typescript": "^6.0.3"
+    }
+}
