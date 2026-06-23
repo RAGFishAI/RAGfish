@@ -158,12 +158,12 @@ type RetrievedChunk = {
 };
 ```
 
-## Official providers
+<!-- ## Official providers
 
 | Package | Provides |
 |---|---|
 | [`@ragfish/openai`](https://www.npmjs.com/package/@ragfish/openai) | `OpenAIEmbedding`, `OpenAILLM` |
-| [`@ragfish/qdrant`](https://www.npmjs.com/package/@ragfish/qdrant) | `QdrantRetriever`, `ingest()`, `chunkText()` |
+| [`@ragfish/qdrant`](https://www.npmjs.com/package/@ragfish/qdrant) | `QdrantRetriever`, `ingest()`, `chunkText()` | -->
 
 ## TypeScript
 
