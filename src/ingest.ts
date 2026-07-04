@@ -1,32 +1,41 @@
 import { randomUUID } from 'node:crypto';
 import { chunkText } from './chunk.js';
+import type { BaseEmbedding } from './interfaces.js';
 import { Settings } from './settings.js';
 import type { IngestInput } from './types.js';
 
 export type { IngestInput };
+
+export type IngestOptions = {
+    collectionName: string;
+    embedding?: BaseEmbedding;
+};
 
 const DEFAULT_CHUNK_SIZE = 1000;
 const DEFAULT_CHUNK_OVERLAP = 200;
 
 export class Ingest {
     private readonly collectionName: string;
+    private readonly embedding: BaseEmbedding;
 
-    constructor(collectionName: string) {
-        if (!collectionName) {
+    constructor(opts: IngestOptions) {
+        if (!opts.collectionName) {
             throw new Error('Ingest requires a collectionName');
         }
-        this.collectionName = collectionName;
+        const embedding = opts.embedding ?? Settings.embedding;
+        if (!embedding) {
+            throw new Error(
+                'No embedding configured. Pass opts.embedding or set Settings.embedding before creating Ingest.',
+            );
+        }
+        this.collectionName = opts.collectionName;
+        this.embedding = embedding;
     }
 
     async run(input: IngestInput): Promise<string[]> {
         if (!Settings.vectorStore) {
             throw new Error(
                 'Settings.vectorStore is not set. Assign a vector store before ingesting.',
-            );
-        }
-        if (!Settings.embedding) {
-            throw new Error(
-                'Settings.embedding is not set. Assign an embedding provider before ingesting.',
             );
         }
 
@@ -39,7 +48,7 @@ export class Ingest {
             throw new Error('Text has no indexable content');
         }
 
-        const vectors = await Settings.embedding.embed(chunks);
+        const vectors = await this.embedding.embed(chunks);
 
         const points = chunks.map((chunk, index) => ({
             id: randomUUID(),
