@@ -44,6 +44,19 @@ export type RetrievedChunk = {
     score: number;
 };
 
+export type IngestInput = {
+    text: string;
+    payload: Record<string, unknown>;
+    chunkSize?: number;
+    chunkOverlap?: number;
+};
+
+export type VectorPoint = {
+    id: string;
+    vector: number[];
+    payload: Record<string, unknown>;
+};
+
 export type RegisteredTool = {
     definition: ToolDefinition;
     execute: (args: Record<string, unknown>) => Promise<string>;
