@@ -1,4 +1,5 @@
 import type { BaseLLM, BaseRetriever } from './interfaces.js';
+import { Settings } from './settings.js';
 import type {
     ChatMessage,
     RegisteredTool,
@@ -8,7 +9,7 @@ import type {
 const RETRIEVE_CHUNKS_TOOL_NAME = 'retrieve_chunks';
 
 export type ChatOptions = {
-    llm: BaseLLM;
+    llm?: BaseLLM;
     retriever?: BaseRetriever;
     chatHistory?: ChatMessage[];
     systemPrompt?: string;
@@ -27,7 +28,13 @@ export class Chat {
     private readonly tools: RegisteredTool[];
 
     constructor(opts: ChatOptions) {
-        this.llm = opts.llm;
+        const llm = opts.llm ?? Settings.llm;
+        if (!llm) {
+            throw new Error(
+                'No LLM configured. Pass opts.llm or set Settings.llm before creating Chat.',
+            );
+        }
+        this.llm = llm;
         this.retriever = opts.retriever;
         this.history = opts.chatHistory ?? [];
         this.systemPrompt = opts.systemPrompt ?? '';
