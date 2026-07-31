@@ -17,7 +17,7 @@
         "LICENSE"
     ],
     "scripts": {
-        "build": "tsc",
+        "build": "rm -rf dist && tsc",
         "prepublishOnly": "npm run build"
     },
     "keywords": [
