@@ -1,4 +1,4 @@
-# ragfish
+# Ragfish
 
 Core RAG (Retrieval-Augmented Generation) primitives for Node.js.
 
