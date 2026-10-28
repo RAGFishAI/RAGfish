@@ -1,11 +1,16 @@
-import type { LlmCompleteInput, RetrievedChunk, VectorPoint } from './types.js';
+import type {
+    LlmCompleteInput,
+    LlmCompleteResult,
+    RetrievedChunk,
+    VectorPoint,
+} from './types.js';
 
 export interface BaseEmbedding {
     embed(texts: string[]): Promise<number[][]>;
 }
 
 export interface BaseLLM {
-    complete(input: LlmCompleteInput): Promise<string>;
+    complete(input: LlmCompleteInput): Promise<LlmCompleteResult>;
 }
 
 export interface BaseRetriever {

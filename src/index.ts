@@ -15,6 +15,8 @@ export type {
     ToolCall,
     ToolDefinition,
     LlmCompleteInput,
+    LlmCompleteResult,
+    TokenUsage,
     RetrievedChunk,
     VectorPoint,
     RegisteredTool,

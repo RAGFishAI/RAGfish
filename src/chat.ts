@@ -18,6 +18,11 @@ export type ChatOptions = {
 
 export type ChatResponse = {
     content: string;
+    token_usage?: {
+        input_tokens: number;
+        cached_tokens: number;
+        output_tokens: number;
+    };
 };
 
 export class Chat {
@@ -95,7 +100,7 @@ export class Chat {
 
         this.history.push({ role: 'user', content: trimmed });
 
-        const answer = await this.llm.complete({
+        const result = await this.llm.complete({
             systemPrompt: this.systemPrompt,
             messages: this.history,
             tools,
@@ -108,7 +113,10 @@ export class Chat {
             },
         });
 
-        this.history.push({ role: 'assistant', content: answer });
-        return { content: answer };
+        this.history.push({ role: 'assistant', content: result.content });
+        return {
+            content: result.content,
+            token_usage: result.token_usage,
+        };
     }
 }
