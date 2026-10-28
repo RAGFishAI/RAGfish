@@ -36,6 +36,17 @@ export type LlmCompleteInput = {
     ) => Promise<string>;
 };
 
+export type TokenUsage = {
+    input_tokens: number;
+    cached_tokens: number;
+    output_tokens: number;
+};
+
+export type LlmCompleteResult = {
+    content: string;
+    token_usage: TokenUsage;
+};
+
 export type RetrievedChunk = {
     documentId: string;
     fileName: string;

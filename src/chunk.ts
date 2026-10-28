@@ -1,13 +1,19 @@
 export function chunkText(
     text: string,
-    chunkSize: number,
-    chunkOverlap: number,
+    chunkSize?: number,
+    chunkOverlap?: number,
 ): string[] {
     const normalized = text.trim();
     if (!normalized) {
         return [];
     }
-    if (chunkOverlap >= chunkSize) {
+
+    if (chunkSize === undefined) {
+        return [normalized];
+    }
+
+    const overlap = chunkOverlap ?? 200;
+    if (overlap >= chunkSize) {
         throw new Error('chunkOverlap must be less than chunkSize');
     }
 
@@ -22,7 +28,7 @@ export function chunkText(
         if (end >= normalized.length) {
             break;
         }
-        start = end - chunkOverlap;
+        start = end - overlap;
     }
     return chunks;
 }

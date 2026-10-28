@@ -11,9 +11,6 @@ export type IngestOptions = {
     embedding?: BaseEmbedding;
 };
 
-const DEFAULT_CHUNK_SIZE = 1000;
-const DEFAULT_CHUNK_OVERLAP = 200;
-
 export class Ingest {
     private readonly collectionName: string;
     private readonly embedding: BaseEmbedding;
@@ -41,14 +38,18 @@ export class Ingest {
 
         const chunks = chunkText(
             input.text,
-            input.chunkSize ?? DEFAULT_CHUNK_SIZE,
-            input.chunkOverlap ?? DEFAULT_CHUNK_OVERLAP,
+            input.chunkSize,
+            input.chunkOverlap,
         );
         if (chunks.length === 0) {
             throw new Error('Text has no indexable content');
         }
 
         const vectors = await this.embedding.embed(chunks);
+        const baseChunkIndex =
+            typeof input.payload.chunkIndex === 'number'
+                ? (input.payload.chunkIndex as number)
+                : 0;
 
         const points = chunks.map((chunk, index) => ({
             id: randomUUID(),
@@ -56,7 +57,7 @@ export class Ingest {
             payload: {
                 ...input.payload,
                 text: chunk,
-                chunkIndex: index,
+                chunkIndex: baseChunkIndex + index,
             },
         }));
 
